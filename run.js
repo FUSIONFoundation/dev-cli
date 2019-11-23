@@ -263,4 +263,4 @@ sendAsset = async (input) => {
     } catch (err) {
         console.error("buildSendAssetTx", err);
     }
-}
+};
