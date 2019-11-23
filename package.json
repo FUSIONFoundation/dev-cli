@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/FUSIONFoundation/dev-cli#readme",
   "dependencies": {
+    "bignumber.js": "^9.0.0",
     "inquirer": "^7.0.0",
     "inquirer-menu": "^1.0.0",
     "web3": "^1.2.4",
