@@ -1,5 +1,5 @@
 {
-"url" : "",
-"chainid" : "",
-"privatekey" : "",
+"url" : "wss://testnetpublicgateway1.fusionnetwork.io:10001",
+"chainid" : 46688,
+"privatekey" : ""
 }
