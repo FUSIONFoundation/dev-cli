@@ -1,5 +1,7 @@
 # FUSION Dev CLI
 
+![cli](https://i.imgur.com/UrjO671.png)
+
 A small tool created to assist developers in sending out funds quickly, and creating assets on the fly from their terminal.
 
 Working Methods:
