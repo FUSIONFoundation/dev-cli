@@ -75,6 +75,7 @@ getAllBalances = async () => {
 }
 
 run = async () => {
+    console.log(`FUSION Foundation ( https://fusion.org )`)
     inquirer
         .prompt([
             {
@@ -200,8 +201,6 @@ makeBigNumber = function (amount, decimals) {
 };
 
 genAsset = async (input) => {
-    console.log(input);
-
     let totalSupplyString = input.assettotalsupply.toString();
     let totalSupplyBN = makeBigNumber(totalSupplyString, input.assetdecimals);
     let totalSupplyBNHex = "0x" + totalSupplyBN.toString(16);
