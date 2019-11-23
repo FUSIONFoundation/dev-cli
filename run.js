@@ -184,11 +184,10 @@ sendAsset = async (input) => {
             .then(tx => {
                 tx.from = account.address.toLowerCase();
                 tx.chainId = parseInt(config.chainid);
-                console.log(tx);
                 return web3.fsn
                     .signAndTransmit(tx, account.signTransaction)
                     .then(txHash => {
-                        console.log(`Your Transaction Hash : ${txHash}`);
+                        console.log(`Transaction Hash : ${txHash}`);
                     });
             });
     } catch (err) {
