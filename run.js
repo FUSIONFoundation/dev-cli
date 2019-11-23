@@ -111,11 +111,48 @@ run = async () => {
                         filter: Number
                     }
                 ];
-
                 inquirer.prompt(questions).then(answers => {
                     sendAsset(answers);
                 });
             }
+            if (answers.menu == "Create Asset") {
+                let questions = [
+                    {
+                        type: 'input',
+                        name: 'assetname',
+                        message: 'Asset Name'
+                    },
+                    {
+                        type: 'input',
+                        name: 'assetsymbol',
+                        message: 'Asset Symbol',
+                    },
+                    {
+                        type: 'input',
+                        name: 'assetdecimals',
+                        message: 'Decimals (max 18)',
+                        validate: function (value) {
+                            var valid = !isNaN(parseFloat(value));
+                            return valid || 'Please enter a valid number';
+                        },
+                        filter: Number
+                    },
+                    {
+                        type: 'input',
+                        name: 'assettotalsupply',
+                        message: 'Total Supply',
+                        validate: function (value) {
+                            var valid = !isNaN(parseFloat(value));
+                            return valid || 'Please enter a valid number';
+                        },
+                        filter: Number
+                    }
+                ];
+                inquirer.prompt(questions).then(answers => {
+                    genAsset(answers);
+                });
+            }
+
         });
 }
 
@@ -162,6 +199,38 @@ makeBigNumber = function (amount, decimals) {
     return amount;
 };
 
+genAsset = async (input) => {
+    console.log(input);
+
+    let totalSupplyString = input.assettotalsupply.toString();
+    let totalSupplyBN = makeBigNumber(totalSupplyString, input.assetdecimals);
+    let totalSupplyBNHex = "0x" + totalSupplyBN.toString(16);
+
+    let data = {
+        from: account.address,
+        name: input.assetname,
+        symbol: input.assetsymbol,
+        decimals: input.assetdecimals,
+        total: totalSupplyBNHex
+    };
+
+    try {
+        await web3.fsntx.buildGenAssetTx(data).then(tx => {
+            tx.chainId = config.chainid;
+            let gasPrice = web3.utils.toWei(new web3.utils.BN(100), "gwei");
+            tx.gasPrice = gasPrice.toString();
+                return web3.fsn
+                    .signAndTransmit(tx, account.signTransaction)
+                    .then(txHash => {
+                        console.log(`Transaction Hash : ${txHash}`);
+                        process.exit();
+                    });
+        });
+    } catch (err) {
+        console.log("buildGenAssetTx", err);
+    }
+}
+
 sendAsset = async (input) => {
     if (input.to.indexOf('0x') === -1 || input.length !== 42) {
         await web3.fsn.getAddressByNotation(parseInt(input.to)).then(function (r) {
@@ -188,6 +257,7 @@ sendAsset = async (input) => {
                     .signAndTransmit(tx, account.signTransaction)
                     .then(txHash => {
                         console.log(`Transaction Hash : ${txHash}`);
+                        process.exit();
                     });
             });
     } catch (err) {
