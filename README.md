@@ -15,6 +15,14 @@ Working Methods:
 
 ## Getting Started
 
+git clone git@github.com:FUSIONFoundation/dev-cli.git
+
+cd dev-cli
+
+npm i
+
+node run.js
+
 To get started, rename config.json.bak to config.json and fill in the required information
 
 **Supported Terminals**
